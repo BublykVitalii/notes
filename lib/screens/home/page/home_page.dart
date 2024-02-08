@@ -18,8 +18,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
       create: (context) => HomeBloc(
-          initialNote: null, objectBoxService: context.read<ObjectBoxService>())
-        ..add(LoadNotesEvent()),
+        initialNote: null,
+        objectBoxService: context.read<ObjectBoxService>(),
+      )..add(LoadNotesEvent()),
       child: const Scaffold(
         body: HomePageContent(),
       ),

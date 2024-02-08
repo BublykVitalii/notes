@@ -39,7 +39,13 @@ class NoteListTile extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            RemoveNoteButton(bloc: bloc, note: note),
+            RemoveNoteButton(
+              onPressed: () {
+                bloc.add(DeleteNote(note.id));
+                context.router.pop();
+              },
+              note: note,
+            ),
           ],
         ),
         title: Text(

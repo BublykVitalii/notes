@@ -11,7 +11,6 @@ extension EditTodoStatusX on EditTodoStatus {
 
 final class HomeState extends Equatable {
   final EditTodoStatus status;
-  final Note? initialNote;
   final String title;
   final String description;
   final List<Note>? noteList;
@@ -20,15 +19,12 @@ final class HomeState extends Equatable {
 
   const HomeState({
     this.status = EditTodoStatus.initial,
-    this.initialNote,
     this.title = '',
     this.description = '',
     this.noteList,
     this.selectedNote,
     required this.id,
   });
-
-  bool get isNewTodo => initialNote == null;
 
   HomeState copyWith({
     EditTodoStatus? status,
@@ -40,7 +36,6 @@ final class HomeState extends Equatable {
   }) {
     return HomeState(
       status: status ?? this.status,
-      initialNote: initialTodo ?? this.initialNote,
       title: title ?? this.title,
       description: description ?? this.description,
       noteList: noteList ?? this.noteList,
@@ -51,7 +46,6 @@ final class HomeState extends Equatable {
   @override
   List<Object?> get props => [
         status,
-        initialNote,
         title,
         description,
         noteList,

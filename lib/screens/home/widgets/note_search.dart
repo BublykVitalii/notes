@@ -3,6 +3,7 @@ import 'package:comitons_test/screens/home/bloc/home_bloc.dart';
 import 'package:comitons_test/screens/home/widgets/note_list_tile_search.dart';
 import 'package:comitons_test/theme/colors.dart';
 import 'package:flutter/material.dart';
+
 class NoteSearchWidget extends StatefulWidget {
   final List<Note> notes;
   final HomeBloc bloc;
@@ -82,6 +83,7 @@ class _NoteSearchWidgetState extends State<NoteSearchWidget> {
                       if (index < _searchResult.length) {
                         final note = _searchResult[index];
                         return NoteListTileSearch(
+                          bloc: widget.bloc,
                           widget: widget,
                           note: note,
                         );

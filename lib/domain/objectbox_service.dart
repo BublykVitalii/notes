@@ -9,8 +9,10 @@ class ObjectBoxService {
 
   Future<void> init() async {
     final directory = await getApplicationDocumentsDirectory();
-    _store =
-        Store(getObjectBoxModel(), directory: '${directory.path}/objectbox');
+    _store = Store(
+      getObjectBoxModel(),
+      directory: '${directory.path}/objectbox',
+    );
     _noteBox = Box<Note>(_store);
   }
 
@@ -41,7 +43,6 @@ class ObjectBoxService {
   }
 
   Future<Note?> getNoteById(int id) async {
-   return _noteBox.get(id);
-
+    return _noteBox.get(id);
   }
 }

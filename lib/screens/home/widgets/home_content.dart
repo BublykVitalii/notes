@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:comitons_test/domain/note_model.dart';
+import 'package:comitons_test/router/app_router.gr.dart';
 import 'package:comitons_test/screens/home/bloc/home_bloc.dart';
 import 'package:comitons_test/screens/home/widgets/add_note_button.dart';
 import 'package:comitons_test/theme/colors.dart';
@@ -18,7 +20,7 @@ class HomePageContent extends StatefulWidget {
 }
 
 class _HomePageContentState extends State<HomePageContent> {
-  bool _isSearchActive = false;
+  ValueNotifier<bool> searchActive = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +34,15 @@ class _HomePageContentState extends State<HomePageContent> {
             title: const Text('Нотатник'),
             elevation: 0,
             actions: [
-              IconButton(
-                icon: Icon(_isSearchActive ? Icons.close : Icons.search),
-                onPressed: () {
-                  setState(() {
-                    _isSearchActive = !_isSearchActive;
-                  });
+              ValueListenableBuilder<bool>(
+                valueListenable: searchActive,
+                builder: (context, isSearchActive, _) {
+                  return IconButton(
+                    icon: Icon(isSearchActive ? Icons.close : Icons.search),
+                    onPressed: () {
+                      searchActive.value = !searchActive.value;
+                    },
+                  );
                 },
               ),
             ],
@@ -49,7 +54,9 @@ class _HomePageContentState extends State<HomePageContent> {
                 : state.status == EditTodoStatus.failure
                     ? _buildErrorMessage(context)
                     : _buildNoteList(
-                        context, state.noteList ?? [], _isSearchActive),
+                        context,
+                        state.noteList ?? [],
+                      ),
           ),
         );
       },
@@ -57,26 +64,37 @@ class _HomePageContentState extends State<HomePageContent> {
   }
 
   Widget _buildNoteList(
-      BuildContext context, List<Note> noteList, bool isSearchActive) {
+    BuildContext context,
+    List<Note> noteList,
+  ) {
     final bloc = BlocProvider.of<HomeBloc>(context);
-    return Column(
-      children: [
-        if (isSearchActive)
-          NoteSearchWidget(
-            notes: noteList,
-            bloc: bloc,
-          ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: noteList.length,
-            itemBuilder: (BuildContext context, int index) {
-              Note note = noteList[index];
-              return NoteListTile(bloc: bloc, note: note);
-            },
-          ),
-        ),
-        AddNoteButton(bloc: bloc),
-      ],
+    return ValueListenableBuilder<bool>(
+      valueListenable: searchActive,
+      builder: (context, isSearchActive, _) {
+        return Column(
+          children: [
+            if (isSearchActive)
+              NoteSearchWidget(
+                notes: noteList,
+                bloc: bloc,
+              ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: noteList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Note note = noteList[index];
+                  return NoteListTile(bloc: bloc, note: note);
+                },
+              ),
+            ),
+            AddNoteButton(
+              onPressed: () => context.router.push(
+                CreateNoteRoute(bloc: bloc),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

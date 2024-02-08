@@ -9,13 +9,12 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
-    required Note? initialNote,
+    Note? initialNote,
     required ObjectBoxService objectBoxService,
   })  : _objectBoxService = objectBoxService,
         super(
           HomeState(
             id: initialNote?.id ?? 0,
-            initialNote: initialNote,
             title: initialNote?.title ?? '',
             description: initialNote?.description ?? '',
           ),
@@ -29,12 +28,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final ObjectBoxService _objectBoxService;
 
-  Future<void> _onNoteChanged(EditTodoChangeEvent event, Emitter<HomeState> emit) async {
+  Future<void> _onNoteChanged(
+    EditTodoChangeEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     try {
       emit(state.copyWith(status: EditTodoStatus.loading));
-      await _objectBoxService.changeNote(event.id, event.title, event.description);
+      await _objectBoxService.changeNote(
+          event.id, event.title, event.description);
       final List<Note> listNote = state.noteList ?? [];
-      final int index = listNote.indexWhere((element) => element.id == event.id);
+      final int index =
+          listNote.indexWhere((element) => element.id == event.id);
 
       listNote[index] = Note(
         id: event.id,
@@ -48,14 +52,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         description: event.description,
         status: EditTodoStatus.success,
       ));
-
     } catch (e) {
       emit(state.copyWith(status: EditTodoStatus.failure));
     }
   }
 
   Future<void> _onCreateNote(
-      CreateNoteEvent event, Emitter<HomeState> emit) async {
+    CreateNoteEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     final List<Note> listNote = state.noteList ?? [];
     emit(state.copyWith(status: EditTodoStatus.loading));
 
@@ -91,7 +96,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onLoadNotes(
-      LoadNotesEvent event, Emitter<HomeState> emit) async {
+    LoadNotesEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     emit(state.copyWith(status: EditTodoStatus.loading));
 
     try {
@@ -102,7 +109,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<void> _onSelectNote(SelectNoteEvent event, Emitter<HomeState> emit) async {
+  Future<void> _onSelectNote(
+    SelectNoteEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     emit(state.copyWith(status: EditTodoStatus.loading));
 
     try {
@@ -122,4 +132,3 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 }
-
