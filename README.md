@@ -1,16 +1,7 @@
 # comitons_test
 
-A new Flutter project.
+Додаток забезпечує користувачам можливість створювати, переглядати, редагувати та видаляти записи, а також здійснювати пошук за ключовими словами. Дані нотаток зберігаються в Hive або Objectbox, а управління станом здійснюється за допомогою BLoC. Дизайн додатка використовує готові віджети Flutter для зручного та ефективного використання.
 
-## Getting Started
+![SimulatorScreenRecording-iPhone14ProMax-2024-02-08at15 24 55-ezgif com-video-to-gif-converter (1)](https://github.com/BublykVitalii/notes/assets/98152931/e9ff0662-3427-4a11-a7d8-898bf21aea14)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![SimulatorScreenRecording-iPhone14ProMax-2024-02-08at15 24 55-ezgif com-video-to-gif-converter (2)](https://github.com/BublykVitalii/notes/assets/98152931/61b85bee-8599-4faf-8226-4a8cf68ca050)
